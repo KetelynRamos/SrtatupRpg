@@ -1,0 +1,231 @@
+<!DOCTYPE html> 
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Login e Cadastro</title>
+<style>
+  body {
+    background-color: blueviolet;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+
+  .container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  h2 {
+    text-align: center;
+    color: blueviolet;
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  input:focus {
+    border-color: #6e3cc7;
+    box-shadow: 0 0 8px #6e3cc7;
+    outline: none;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: blueviolet;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  button:hover {
+    background-color: #6e3cc7;
+    transform: scale(1.05);
+  }
+
+  .toggle {
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .toggle a {
+    color: blueviolet;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .toggle a:hover {
+    color: #6e3cc7;
+  }
+
+  .form {
+    position: absolute;
+    top: 40px; 
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .form.active {
+    opacity: 1;
+    pointer-events: auto;
+    position: relative;
+  }
+
+  .message {
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+    color: green;
+    min-height: 20px;
+    transition: opacity 0.3s ease;
+  }
+
+  .message.error {
+    color: red;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <form id="cadastroForm" class="form active" autocomplete="off">
+    <h2>Cadastrar Perfil</h2>
+    <input type="text" name="nome" placeholder="Nome completo" required />
+    <input type="email" name="email" placeholder="E-mail" required />
+    <input type="password" name="senha" placeholder="Senha" required />
+    <button type="submit">Cadastrar</button>
+    <div class="toggle">
+      Já tem uma conta? <a onclick="trocarForm('login')">Entrar</a>
+    </div>
+    <div id="msgCadastro" class="message"></div>
+  </form>
+
+  <form id="loginForm" class="form" autocomplete="off">
+    <h2>Fazer Login</h2>
+    <input type="email" name="email" placeholder="E-mail" required />
+    <input type="password" name="senha" placeholder="Senha" required />
+    <button type="submit">Entrar</button>
+    <div class="toggle">
+      Ainda não tem conta? <a onclick="trocarForm('cadastro')">Cadastrar</a>
+    </div>
+    <div id="msgLogin" class="message"></div>
+  </form>
+</div>
+
+<script>
+  function trocarForm(tipo) {
+    const cadastro = document.getElementById('cadastroForm');
+    const login = document.getElementById('loginForm');
+   
+    if (tipo === 'cadastro') {
+      login.classList.remove('active');
+      setTimeout(() => cadastro.classList.add('active'), 400);
+    } else {
+      cadastro.classList.remove('active');
+      setTimeout(() => login.classList.add('active'), 400);
+    }
+
+    
+    document.getElementById('msgCadastro').textContent = '';
+    document.getElementById('msgLogin').textContent = '';
+    cadastro.reset();
+    login.reset();
+  }
+
+  
+  function salvarUsuario(usuario) {
+    let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    usuarios.push(usuario);
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+  }
+
+  function buscarUsuarioPorEmail(email) {
+    let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+    return usuarios.find(u => u.email === email);
+  }
+
+  document.getElementById('cadastroForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const nome = this.nome.value.trim();
+    const email = this.email.value.trim();
+    const senha = this.senha.value;
+
+    const msg = document.getElementById('msgCadastro');
+    msg.classList.remove('error');
+    msg.textContent = '';
+
+    if(buscarUsuarioPorEmail(email)) {
+      msg.classList.add('error');
+      msg.textContent = 'Este e-mail já está cadastrado.';
+      return;
+    }
+
+    salvarUsuario({ nome, email, senha });
+    msg.textContent = 'Cadastro realizado com sucesso! Você já pode entrar.';
+    this.reset();
+  });
+
+  document.getElementById('loginForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const email = this.email.value.trim();
+    const senha = this.senha.value;
+
+    const msg = document.getElementById('msgLogin');
+    msg.classList.remove('error');
+    msg.textContent = '';
+
+    const usuario = buscarUsuarioPorEmail(email);
+    if(!usuario) {
+      msg.classList.add('error');
+      msg.textContent = 'Usuário não encontrado.';
+      return;
+    }
+
+    if(usuario.senha !== senha) {
+      msg.classList.add('error');
+      msg.textContent = 'Senha incorreta.';
+      return;
+    }
+
+    
+    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+
+    msg.textContent = `Bem-vindo(a), ${usuario.nome}! Login realizado com sucesso.`;
+
+    this.reset();
+
+    
+    setTimeout(() => {
+      window.location.href = 'inicial.html';
+    }, 1500);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página Inicial</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: blueviolet;
+      color: white;
+    }
+
+    header {
+      background-color: #5c2ebc;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1001;
+    }
+
+    .menu-icon {
+      font-size: 38px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .icons {
+      display: flex;
+      gap: 40px;
+      align-items:center;
+      margin-right:auto;
+      margin-left: auto;
+    }
+
+    .icons span {
+      cursor: pointer;
+      font-size: 30px;
+    }
+
+
+    header > .menu-icon {
+  margin-right: auto;
+}
+
+header > .icons {
+  flex-grow: 1;
+  justify-content: center;
+}
+    nav {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 250px;
+      height: 100%;
+      background-color: #3d1f7c;
+      padding: 60px 20px;
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+
+    nav.active {
+      left: 0;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin: 20px 0;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      transition: color 0.2s ease;
+      cursor: pointer;
+    }
+
+    nav ul li a:hover {
+      color: #dcd0ff;
+    }
+
+    main {
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .boas-vindas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(137, 43, 226, 0.95);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      font-size: 26px;
+      font-weight: bold;
+      animation: fadeOut 2s ease 2s forwards;
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+    }
+
+    .modal-content {
+      background: white;
+      color: black;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      color: blueviolet;
+    }
+
+    .modal-content input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .modal-content button {
+      margin-top: 10px;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 6px;
+      background-color: blueviolet;
+      color: white;
+      cursor: pointer;
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      font-size: 22px;
+      color: #333;
+      cursor: pointer;
+    }
+
+    .grid-carrinho {
+       display: grid;
+       grid-template-columns: repeat(3, 1fr); 
+       gap: 24px; 
+       justify-items: center; 
+       padding: 20px 0;
+    }
+
+
+.item-carrinho {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  width: 320px;
+  height: 400px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+
+
+.item-carrinho .descricao {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  color: black;
+  padding: 20px;
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.item-carrinho:hover .descricao {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+.btn-comprar {
+  margin-top: auto; 
+  padding: 8px 16px;
+  background-color: blueviolet;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn-comprar:hover {
+  background-color: indigo;
+}
+
+     .boas-vindas::after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #666;
+      font-size: 14px;
+    }
+
+  .produtos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 100px; 
+  }
+
+.produto-card {
+  transition: transform 0.3s ease;
+}
+
+.produto-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+
+  .parceiros {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 100px; 
+  }
+
+.parceiros-card {
+  transition: transform 0.3s ease;
+}
+
+.parceiros-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  cursor: pointer; 
+}
+
+
+  .item-loja {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 15px;
+  width: 300px;
+  height: 300px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; 
+  overflow: hidden; 
+}
+
+   .loja {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 100px; 
+        }
+.loja img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+.item-loja img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 20px;
+}
+
+
+
+html{
+  scroll-behavior: smooth;
+}
+
+#configuracoes {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#configuracoes.ativo {
+  visibility: visible;
+  opacity: 1;
+}
+
+.config-container {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 30px 40px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  text-align: center;
+  color: #333;
+}
+
+.config-container h2 {
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: #0c0101;
+}
+
+.config-container label {
+  display: block;
+  margin: 15px 0 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #555b;
+  text-align: left;
+}
+
+.config-container input[type="text"],
+.config-container input[type="checkbox"],
+.config-container select {
+  width: 100%;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  border: 1.8px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.config-container input[type="text"]:focus,
+.config-container select:focus {
+  border-color: #667eea;
+  outline: none;
+}
+
+.config-container button {
+  background-color: #667eea;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.config-container button:hover {
+  background-color: #5563c1;
+}
+
+.config-container .close-btn {
+  background-color: transparent;
+  color: #667eea;
+  border: 2px solid #667eea;
+  padding: 8px 20px;
+  margin-top: 10px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.config-container .close-btn:hover {
+  background-color: #667eea;
+  color: white;
+}
+
+
+
+
+/* Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 26px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: blueviolet;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+
+#amigosModal input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#amigosModal button {
+  background-color: blueviolet;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 50%;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#amigosModal button:hover {
+  background-color: indigo;
+}
+
+.cartao-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cartao-amigo {
+  display: flex;
+  align-items: center;
+  background-color: #dab6fc;
+  padding: 10px;
+  border-radius: 12px;
+  justify-content: space-between;
+  color: black;
+}
+
+.cartao-amigo img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: white;
+  margin-right: 10px;
+}
+
+.cartao-amigo button {
+  background-color: #9b4dff;
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 18px;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.cartao-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
+.item-loja {
+  position: relative; 
+}
+
+.item-loja img {
+  transition: opacity 0.3s ease; 
+  display: block; 
+  width: 100%; 
+  height: 100%; 
+  object-fit: contain; 
+  padding: 20px; 
+}
+
+.item-loja .nome-loja {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(92, 46, 188, 0.9); 
+  color: rgb(245, 242, 242);
+  font-size: 1.5rem; 
+  font-weight: bold;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 15px; 
+  border-radius: 8px; 
+  box-sizing: border-box; 
+}
+
+.item-loja:hover img {
+  opacity: 0; 
+}
+
+.item-loja:hover .nome-loja {
+  opacity: 1;
+  visibility: visible; 
+}
+
+
+
+  </style>
+</head>
+
+<body>
+<div class="boas-vindas" id="boasVindas">
+  Bem-vindo(a)!
+</div>
+
+<nav id="menu">
+  <br>
+  <ul>
+    <li><a href="#" onclick="mostrarAmigos()">Amigos</a></li>
+    <li><a href="#" onclick="mostrarConfiguracoes()">Configuração</a></li>
+    <li><a onclick="abrirModal()">Perfil</a></li>
+    <li><a onclick="confirmarLogout()">Sair</a></li>
+  </ul>
+</nav>
+
+
+
+<header>
+  <div class="menu-icon" id="menuToggle">☰</div>
+  <div class="icons">
+   <span class="icon" onclick="abrirCarrinho()" style="position: relative;">
+  🛒
+  <span id="contadorCarrinho" style="position: absolute; top: -10px; right: -10px; background: red; color: white; font-size: 12px; border-radius: 50%; padding: 2px 6px; display: none;">0</span>
+</span>
+    <span class="icon" onclick="abrirModal()">👤</span>
+    <span class="icon" onclick="abrrirNotificacao()" style="position: relative;">
+      🔔
+    <span id="contadorNotificacao" style="position: absolute; top: -10px; right: -10px; background: red; color: white; font-size: 12px; border-radius: 50%; padding: 2px 6px; display: none;">0</span>
+</span> 
+  </div>
+</header>
+
+
+
+<div class="produtos"> 
+
+<div class="produto-card">
+  <div class="item-carrinho">
+    <h3 style="color:#0c0101">Plano Mensal</h3>
+    <div class="descricao">
+      <p><strong>R$14,90</strong></p>
+      <ul style="text-align: left; padding-left: 20px;">
+        <li>Customização de perfil</li>
+        <li>Envio de Arquivos</li>
+        <li>Perfil de Criador de Conteúdo</li>
+        <li>Jogar múltiplas mesas</li>
+        <br><br>
+          <button class="btn-comprar" onclick="adicionarAoCarrinho('Plano 1')">Comprar</button>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="produto-card">
+  <div class="item-carrinho">
+    <h3 style="color:#0c0101">Plano Trimestral</h3>
+    <div class="descricao">
+      <p><strong>R$37,75</strong></p>
+      <ul style="text-align: left; padding-left: 20px;">
+        <li>Customização de perfil</li>
+        <li>Envio de Arquivos</li>
+        <li>Perfil de Criador de Conteúdo</li>
+        <li>Jogar múltiplas mesas</li>
+        <li>Plano Trimestral 15% de desconto</li>
+        <br><br>
+        <button class="btn-comprar" onclick="adicionarAoCarrinho('Plano 2')">Comprar</button>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="produto-card">
+  <div class="item-carrinho">
+     <h3 style="color:#0c0101">Plano Anual</h3>
+    <div class="descricao">
+      <p><strong>R$125,16</strong></p>
+      <ul style="text-align: left; padding-left: 20px;">
+        <li>Customização de perfil</li>
+        <li>Envio de Arquivos</li>
+        <li>Perfil de Criador de Conteúdo</li>
+        <li>Jogar múltiplas mesas</li>
+        <li>Plano Anual com 30% de desconto</li>
+        <br><br>
+        <button class="btn-comprar" onclick="adicionarAoCarrinho('Plano 3')">Comprar</button>
+      </ul>
+    </div>
+ 
+  </div>
+</div>
+</div>
+
+
+
+<section id="configuracoes">
+  <div class="config-container">
+    <h2>Configurações</h2>
+    <button onclick="adicionarNotificacao()">Testar Notificação</button>
+
+    <div class="config-item">
+      <label for="temaSelect">Tema:</label>
+      <select id="temaSelect" onchange="mudarTema()">
+        <option value="claro">Claro</option>
+        <option value="escuro">Escuro</option>
+      </select>
+    </div>
+
+    <div class="config-item">
+      <label for="notificacoesToggle">Notificações:</label>
+      <label class="switch">
+        <input type="checkbox" id="notificacoesToggle" checked onchange="toggleNotificacoes()">
+        <span class="slider round"></span>
+      </label>
+       <button onclick="fecharConfiguracoes()">Fechar Configurações</button>
+    </div>
+  </div>
+</section>
+
+
+
+<main>
+  <br>
+  <section id="Lojas Parceiras">
+    <h2>Lojas Parceiras</h2>
+   <div class="parceiros">
+
+  <div class="parceiros-card">
+    <div class="item-loja">
+       <img src="owlbear.png" alt="Loja">
+       <span class="nome-loja">Owlbear Rodeo</span>
+    </div>
+  </div>
+   <div class="parceiros-card">
+    <div class="item-loja">
+      <img src="discord.png" alt="Loja">
+       <span class="nome-loja">Discord</span>
+    </div>
+  </div>
+   <div class="parceiros-card">
+    <div class="item-loja">
+      <img src="roll20.png" alt="Loja">
+      <span class="nome-loja">Roll20</span>
+    </div>
+  </div>
+  <div class="parceiros-card">
+    <div class="item-loja">
+       <img src="youtube.png" alt="Loja">
+        <span class="nome-loja">YouTube</span>
+    </div>
+  </div>
+ 
+</div>
+  </section>
+</main>
+
+
+
+<div class="modal" id="perfilModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="fecharModal()">&times;</span>
+    <h2>Editar Perfil</h2>
+        <img src="caminho-da-imagem.jpg" alt="Foto de perfil" style="width:100px; height:100px; border-radius: 50%;">
+    <input type="text" id="editNome" placeholder="Nome" />
+    <input type="email" id="editEmail" placeholder="E-mail" />
+    <input type="text" id="editBiografia" placeholder="Biografia" />
+    <button onclick="salvarPerfil()">Salvar</button>
+  </div>
+</div>
+
+<div class="modal" id="carrinhoModal">
+  <div class="modal-content" style="max-width: 700px; margin: 0 auto;">
+    <span class="close-btn" onclick="fecharCarrinho()">&times;</span>
+    <h2 style="color: blueviolet;">Seu Carrinho</h2>
+    <div class="grid-carrinho" id="itensCarrinho">
+      <!-- Os itens serão adicionados dinamicamente aqui -->
+    </div>
+    <div id="totalCarrinho" style="margin-top: 20px; text-align: right; font-weight: bold; color: #333;"></div>
+    <div style="text-align: center; margin-top: 20px;">
+      <button id="btnEfetuarPagamento" onclick="abrirPagamento()" style="background-color: blueviolet; color: white; padding: 12px 25px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; display: none;">
+        Efetuar Pagamento
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="pagamentoModal">
+  <div class="modal-content" style="max-width: 500px; margin: 0 auto;">
+    <span class="close-btn" onclick="fecharPagamento()">&times;</span>
+    <h2 style="color: blueviolet;">Finalizar Compra</h2>
+    <div style="margin-bottom: 15px;">
+        <label for="nomeCartao" style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Nome no Cartão</label>
+        <input type="text" id="nomeCartao" required style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+      </div>
+      <div style="margin-bottom: 15px;">
+        <label for="numeroCartao" style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Número do Cartão</label>
+        <input type="text" id="numeroCartao" required placeholder="0000 0000 0000 0000" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+      </div>
+      <div style="display: flex; gap: 15px; margin-bottom: 15px;">
+        <div style="flex: 1;">
+          <label for="validadeCartao" style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">Validade</label>
+          <input type="text" id="validadeCartao" required placeholder="MM/AA" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+        </div>
+        <div style="flex: 1;">
+          <label for="cvvCartao" style="display: block; margin-bottom: 5px; font-weight: bold; color: #333;">CVV</label>
+          <input type="text" id="cvvCartao" required placeholder="123" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ddd;">
+        </div>
+      </div>
+      <div style="margin-top: 20px; text-align: center;">
+        <button onclick="processarPagamento()" style="background-color: blueviolet; color: white; padding: 12px 25px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+          Confirmar Pagamento
+        </button>
+      </div>
+  </div>
+</div>
+
+<div class="modal" id="logoutModal">
+  <div class="modal-content" style="max-width: 400px; text-align: center;">
+    <h2 style="color: blueviolet;">Confirmação</h2>
+    <p style="margin: 20px 0; font-size: 18px; color: #333;">Deseja realmente sair?</p>
+    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 30px;">
+      <button onclick="logout()" style="background-color: #4CAF50; color: white; padding: 10px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Sim</button>
+      <button onclick="fecharLogoutModal()" style="background-color: #f44336; color: white; padding: 10px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Não</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="notificacaoModal">
+  <div id="listaNotificacoes">
+
+  <div class="modal-content" style="max-width: 600px;">
+    <span class="close-btn" onclick="fecharModal()">&times;</span>
+    <h2 style="color: blueviolet;"> Suas Notificações</h2>
+      <p id="mensagemNotificacao" style="text-align: center; color: #666; margin-top: 20px;">
+      Você não tem notificações.
+    </p>
+  </div>
+ </div>
+
+</div>
+
+
+
+<div class="modal" id="amigosModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="fecharAmigos()">&times;</span>
+    <h2>Conectar com Amigos</h2>
+    <input type="text" id="buscarAmigo" placeholder="Buscar por nome ou e-mail" />
+ 
+
+    <div class="cartao-container">
+      <div class="cartao-amigo">
+        <div class="cartao-info">
+          <img src="https://via.placeholder.com/35" alt="Amigo">
+          <span>Ana Souza</span>
+        </div>
+        <button>+</button>
+      </div>
+
+      <div class="cartao-amigo">
+        <div class="cartao-info">
+          <img src="https://via.placeholder.com/35" alt="Amigo">
+          <span>João Pedro</span>
+        </div>
+        <button>+</button>
+      </div>
+         <button onclick="conectarAmigo()">Conectar</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  const menu = document.getElementById('menu');
+  const toggleBtn = document.getElementById('menuToggle');
+  const modal = document.getElementById('perfilModal');
+  const carrinhoModal = document.getElementById('carrinhoModal');
+  const notificacaoModal=document.getElementById('notificacaoModal');
+  const nomeInput = document.getElementById('editNome');
+  const emailInput = document.getElementById('editEmail');
+
+
+  
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => menu.classList.toggle('active'));
+  }
+
+
+
+    function abrirModal() {
+    const usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+    if (usuario) {
+      if (nomeInput) nomeInput.value = usuario.nome;
+      if (emailInput) emailInput.value = usuario.email;
+    }
+    modal.style.display = 'flex';
+  }
+
+  function fecharModal() { modal.style.display = 'none'; }
+  function abrirCarrinho() { carrinhoModal.style.display = 'flex'; }
+  function fecharCarrinho() { carrinhoModal.style.display = 'none'; }
+    function abrrirNotificacao() {
+  notificacaoModal.style.display = 'flex'; 
+  
+  // Atualiza o conteúdo do modal com as mensagens de notificação
+  const mensagemNotificacao = document.getElementById("mensagemNotificacao");
+  
+  if (listaNotificacoes.length > 0) {
+    let conteudoHTML = "";
+    for (let i = 0; i < listaNotificacoes.length; i++) {
+      conteudoHTML += `<div style="background-color: #f0e6ff; padding: 10px; margin: 10px 0; border-radius: 8px; color: #333;">
+        ${listaNotificacoes[i]}
+      </div>`;
+    }
+    mensagemNotificacao.innerHTML = conteudoHTML;
+  } else {
+    mensagemNotificacao.innerHTML = "Você não tem notificações.";
+  }
+  
+  // Reseta o contador
+  contadorNotificacoes = 0;
+  const span = document.getElementById("contadorNotificacao");
+  span.innerText = "";
+  span.style.display = "none";
+}
+  function fecharNotificacao() { notificacaoModal.style.display = 'none'; }
+  
+
+  function salvarPerfil() {
+    const nome = nomeInput.value.trim();
+    const email = emailInput.value.trim();
+    let usuario = JSON.parse(localStorage.getItem('usuarioLogado'));
+    let usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+
+    usuarios = usuarios.map(u => {
+      if (u.email === usuario.email) {
+        return { ...u, nome, email };
+      }
+      return u;
+    });
+
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+    localStorage.setItem('usuarioLogado', JSON.stringify({ nome, email, senha: usuario.senha }));
+    alert("Perfil atualizado com sucesso!");
+    fecharModal();
+  }
+
+  function confirmarLogout() {
+    document.getElementById('logoutModal').style.display = 'flex';
+  }
+  
+  function fecharLogoutModal() {
+    document.getElementById('logoutModal').style.display = 'none';
+  }
+  
+  function logout() {
+    localStorage.removeItem('usuarioLogado');
+    window.location.href = 'index.html';
+  }
+
+  window.onclick = function(event) {
+    if (event.target === modal) fecharModal();
+    if (event.target === carrinhoModal) fecharCarrinho();
+    if (event.target === notificacaoModal) fecharNotificacao();
+    if (event.target === document.getElementById('logoutModal')) fecharLogoutModal();
+  };
+
+  setTimeout(() => {
+    document.getElementById("boasVindas").style.display = "none";
+  }, 4000);
+  const carrinho = {};
+
+  function atualizarCarrinho() {
+  const container = document.getElementById('itensCarrinho');
+  const contador = document.getElementById('contadorCarrinho');
+  const btnPagamento = document.getElementById('btnEfetuarPagamento');
+  const totalCarrinhoDiv = document.getElementById('totalCarrinho');
+  container.innerHTML = '';
+
+  let totalItens = 0;
+  let valorTotal = 0;
+  
+  // Valores fictícios para os planos
+  const precos = {
+    'Plano 1': 14.90,
+    'Plano 2': 37.75,
+    'Plano 3': 125.16
+  };
+  
+  for (let nome in carrinho) {
+    const quantidade = carrinho[nome];
+    totalItens += quantidade;
+    
+    const preco = precos[nome] || 0;
+    const subtotal = preco * quantidade;
+    valorTotal += subtotal;
+
+    const item = document.createElement('div');
+    item.classList.add('item-carrinho');
+    item.innerHTML = `
+      <p>${nome} (x${quantidade})</p>
+      <p>R$ ${preco.toFixed(2)} cada</p>
+      <button class="btn-comprar" onclick="removerDoCarrinho('${nome}')">Remover</button>
+    `;
+
+    container.appendChild(item);
+  }
+
+  // Atualiza o total
+  if (valorTotal > 0) {
+    totalCarrinhoDiv.innerHTML = `Total: R$ ${valorTotal.toFixed(2)}`;
+  } else {
+    totalCarrinhoDiv.innerHTML = '';
+  }
+
+  // Atualiza o contador e o botão de pagamento
+  if (totalItens > 0) {
+    contador.style.display = 'inline-block';
+    contador.textContent = totalItens;
+    btnPagamento.style.display = 'inline-block';
+  } else {
+    contador.style.display = 'none';
+    btnPagamento.style.display = 'none';
+  }
+}
+
+  let contadorNotificacoes = 0; //contador notificação 
+  let listaNotificacoes = []; // array para armazenar as mensagens de notificação
+
+  function adicionarNotificacao(mensagem) {
+    contadorNotificacoes++;
+    const span = document.getElementById("contadorNotificacao");
+    span.innerText = contadorNotificacoes;
+    span.style.display = "inline-block";
+    
+    // Adiciona a mensagem à lista de notificações
+    if (mensagem) {
+      listaNotificacoes.push(mensagem);
+    }
+  }
+
+  function abrirNotificacao() {
+  alert("Você tem " + contadorNotificacoes + " novas notificações.");
+  contadorNotificacoes = 0;
+  const span = document.getElementById("contadorNotificacao");
+  span.innerText = "";
+  span.style.display = "none";
+}
+
+  
+
+  function adicionarAoCarrinho(nomeProduto) {
+    if (carrinho[nomeProduto]) {
+      carrinho[nomeProduto]++;
+    } else {
+      carrinho[nomeProduto] = 1;
+    }
+    atualizarCarrinho();
+  }
+
+function removerDoCarrinho(nomeProduto) {
+  if (carrinho[nomeProduto]) {
+    carrinho[nomeProduto]--;
+    if (carrinho[nomeProduto] === 0) {
+      delete carrinho[nomeProduto];
+    }
+  }
+  atualizarCarrinho();
+}
+
+  function mostrarTela(idTela) {
+  const telas = document.querySelectorAll("main section");
+  telas.forEach(tela => tela.style.display = 'none');
+
+  const telaSelecionada = document.getElementById(idTela);
+  if (telaSelecionada) {
+    telaSelecionada.style.display = 'block';
+  }
+
+  menu.classList.remove('active'); 
+}
+
+function mostrarAmigos() {
+  document.getElementById('amigosModal').style.display = 'flex';
+}
+
+function fecharAmigos() {
+  document.getElementById('amigosModal').style.display = 'none';
+}
+
+
+
+
+function procurarAmigos() {
+  const resultado = document.getElementById('resultadoBusca');
+  const nomeBuscado = document.querySelector('#amigosModal input').value;
+
+
+  if (nomeBuscado.trim() !== "") {
+    resultado.innerHTML = `
+      <div class="cartao-amigo">
+        <div class="cartao-info">
+          <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="avatar">
+          <span>${nomeBuscado}</span>
+        </div>
+        <button onclick="enviarSolicitacao('${nomeBuscado}')">+</button>
+      </div>
+    `;
+  } else {
+    resultado.innerHTML = "<p>Digite um nome para buscar.</p>";
+  }
+}
+
+function enviarSolicitacao(nome) {
+  alert(`Solicitação de amizade enviada para ${nome}!`);
+  adicionarNotificacao(`Você enviou solicitação para ${nome}`);
+
+  const header = document.querySelector(".top-bar"); 
+  if (header) {
+    const aviso = document.createElement("div");
+    aviso.textContent = "Pedido de amizade enviado!";
+    aviso.style.color = "white";
+    aviso.style.background = "#6a0dad";
+    aviso.style.padding = "5px";
+    aviso.style.borderRadius = "6px";
+    aviso.style.marginTop = "5px";
+    header.appendChild(aviso);
+
+    setTimeout(() => aviso.remove(), 2000); 
+  }
+}
+
+// Funções para o pagamento
+function abrirPagamento() {
+  document.getElementById('pagamentoModal').style.display = 'flex';
+}
+
+function fecharPagamento() {
+  document.getElementById('pagamentoModal').style.display = 'none';
+}
+
+function processarPagamento() {
+  const nomeCartao = document.getElementById('nomeCartao').value;
+  const numeroCartao = document.getElementById('numeroCartao').value;
+  
+  // Simulação de processamento de pagamento
+  const pagamentoModal = document.getElementById('pagamentoModal');
+  pagamentoModal.innerHTML = `
+    <div class="modal-content" style="max-width: 500px; margin: 0 auto; text-align: center;">
+      <h2 style="color: #blackS;">Pagamento Processado com Sucesso!</h2>
+      <p style="margin: 20px 0; font-size: 16px; color: #333;">
+        Obrigado por sua compra, ${nomeCartao}!
+      </p>
+      <p style="margin-bottom: 30px; color: #666;">
+        Um comprovante foi enviado para seu e-mail.
+      </p>
+      <button onclick="finalizarCompra()" style="background-color: blueviolet; color: white; padding: 12px 25px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+        Concluir
+      </button>
+    </div>
+  `;
+}
+
+function finalizarCompra() {
+  // Obtém o valor total antes de limpar o carrinho
+  let valorTotal = 0;
+  const precos = {
+    'Plano 1': 14.90,
+    'Plano 2': 37.75,
+    'Plano 3': 125.16
+  };
+  
+  let itensComprados = [];
+  for (let nome in carrinho) {
+    const quantidade = carrinho[nome];
+    const preco = precos[nome] || 0;
+    valorTotal += preco * quantidade;
+    itensComprados.push(`${nome} (${quantidade}x)`);
+  }
+  
+  // Limpa o carrinho
+  for (let item in carrinho) {
+    delete carrinho[item];
+  }
+  
+  // Atualiza a interface
+  atualizarCarrinho();
+  
+  // Fecha os modais
+  document.getElementById('pagamentoModal').style.display = 'none';
+  document.getElementById('carrinhoModal').style.display = 'none';
+  
+  // Exibe uma mensagem de confirmação na tela
+  const confirmacaoCompra = document.createElement('div');
+  confirmacaoCompra.style.position = 'fixed';
+  confirmacaoCompra.style.top = '50%';
+  confirmacaoCompra.style.left = '50%';
+  confirmacaoCompra.style.transform = 'translate(-50%, -50%)';
+  confirmacaoCompra.style.background = 'blueviolet';
+  confirmacaoCompra.style.color = 'white';
+  confirmacaoCompra.style.padding = '20px';
+  confirmacaoCompra.style.borderRadius = '10px';
+  confirmacaoCompra.style.textAlign = 'center';
+  confirmacaoCompra.style.zIndex = '9999';
+  confirmacaoCompra.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+  confirmacaoCompra.style.minWidth = '300px';
+  confirmacaoCompra.innerHTML = `
+    <h3 style="margin-top: 0;">Pagamento Concluído!</h3>
+    <p>Valor total: R$ ${valorTotal.toFixed(2)}</p>
+    <p>Obrigado pela sua compra.</p>
+  `;
+  document.body.appendChild(confirmacaoCompra);
+  
+  // Remove a mensagem após 3 segundos
+  setTimeout(() => {
+    confirmacaoCompra.style.opacity = '0';
+    confirmacaoCompra.style.transition = 'opacity 0.5s ease';
+    setTimeout(() => confirmacaoCompra.remove(), 500);
+  }, 3000);
+  
+  // Adiciona notificação detalhada no sininho
+  const dataHora = new Date().toLocaleString();
+  adicionarNotificacao(`Pagamento efetuado com sucesso! R$ ${valorTotal.toFixed(2)} - ${dataHora}`);
+}
+
+function abrirNotificacao(){
+  notificacaoModal.style.display = 'flex';
+  
+  // Atualiza o conteúdo do modal com as mensagens de notificação
+  const mensagemNotificacao = document.getElementById("mensagemNotificacao");
+  
+  if (listaNotificacoes.length > 0) {
+    let conteudoHTML = "";
+    for (let i = 0; i < listaNotificacoes.length; i++) {
+      conteudoHTML += `<div style="background-color: #f0e6ff; padding: 10px; margin: 10px 0; border-radius: 8px; color: #333;">
+        ${listaNotificacoes[i]}
+      </div>`;
+    }
+    mensagemNotificacao.innerHTML = conteudoHTML;
+  } else {
+    mensagemNotificacao.innerHTML = "Você não tem notificações.";
+  }
+  
+  // Reseta o contador
+  contadorNotificacoes = 0;
+  const span = document.getElementById("contadorNotificacao");
+  span.innerText = "";
+  span.style.display = "none";
+}
+
+
+  function mostrarAmigos() {
+    document.getElementById("amigosModal").style.display = "flex";
+  }
+
+  function fecharAmigos() {
+    document.getElementById("amigosModal").style.display = "none";
+  }
+
+  function conectarAmigo() {
+    const nome = document.getElementById("buscarAmigo").value;
+    alert("Solicitação enviada para " + nome);
+    adicionarNotificacao("Você enviou solicitação para " + nome);
+  }
+
+
+function mostrarConfiguracoes() {
+  document.querySelector("main").style.display = "none";  
+  const configSection = document.getElementById("configuracoes");
+  configSection.classList.add("ativo");
+}
+
+function fecharConfiguracoes() {
+  const configSection = document.getElementById("configuracoes");
+  configSection.classList.remove("ativo"); 
+  document.querySelector("main").style.display = "block"; 
+}
+
+
+function mudarTema() {
+  const tema = document.getElementById("temaSelect").value;
+
+  if (tema === "escuro") {
+    document.body.style.background ="#lightblue";
+    document.body.style.color = "#lightblue";
+  } else {
+    document.body.style.background ="#blueviolet";
+    document.body.style.color = "#blueviolet";
+  }
+}
+
+
+function toggleNotificacoes() {
+  const isAtivado = document.getElementById("notificacoesToggle").checked;
+  alert(`Notificações ${isAtivado ? 'ativadas' : 'desativadas'}.`);
+}
+
+
+
+
+
+</script>
+</body>
+</html>
